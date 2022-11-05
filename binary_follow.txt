@@ -1,0 +1,46 @@
+from mindstorms import MSHub, Motor, MotorPair, ColorSensor, DistanceSensor
+from mindstorms.control import wait_for_seconds, wait_until, Timer
+from mindstorms.operator import not_equal_to, greater_than, greater_than_or_equal_to, less_than, less_than_or_equal_to, equal_to
+import math
+
+# Objects
+hub = MSHub()
+
+m_back_right = Motor('A')
+m_back_left = Motor('B')
+m_front_right = Motor('E')
+m_front_left = Motor('F')
+
+back_pair = MotorPair('A', 'B')
+front_pair = MotorPair('E', 'F')
+
+color_sensor = ColorSensor('C')
+distance_sensor = DistanceSensor('D') # NOTE distance sensor is 6cm from front of bot
+
+# Functions 
+def turn_left():
+    m_back_right.start(20)
+    m_back_left.start(-5)
+    # m_front_right.start(50)
+    # m_front_left.start(1-0)
+
+def turn_right():
+    m_back_right.start(5)
+    m_back_left.start(-20)
+    # m_front_right.start(10)
+    # m_front_left.start(-50)
+
+def follow_line():
+    color = color_sensor.get_color()
+    
+    if color == 'blue':
+        turn_right()
+    else:
+        turn_left()
+
+# Program starts here
+while True:
+    print("left rotation: ", m_back_left.get_degrees_counted())
+    print("right rotation: ", m_back_right.get_degrees_counted())
+
+    follow_line()
