@@ -1,0 +1,30 @@
+from mindstorms import MSHub, Motor, MotorPair, ColorSensor, DistanceSensor, App
+from mindstorms.control import wait_for_seconds, wait_until, Timer
+from mindstorms.operator import greater_than, greater_than_or_equal_to, less_than, less_than_or_equal_to, equal_to, not_equal_to
+import math
+
+
+# Create your objects here.
+hub = MSHub()
+back_pair = MotorPair('A', 'B')
+front_pair = MotorPair('E', 'F')
+color_sensor = ColorSensor('C')
+
+
+# Write your program here.
+hub.speaker.beep()
+
+#Proprotional Line following
+# set movement speed to be slower when steering
+front_pair.set_default_speed(-30)
+
+# at average_reflection, robot steer value should be 0
+average_reflection = 60
+
+# while True:
+#     front_pair.start(20, -20)
+#     back_pair.start(20, -20)
+
+while True:
+    front_pair.start(int((color_sensor.get_reflected_light() - average_reflection) * 7), -100 + abs(int((color_sensor.get_reflected_light() - average_reflection))))
+    back_pair.start(int((color_sensor.get_reflected_light() - average_reflection) * 7), -100 + abs(int((color_sensor.get_reflected_light() - average_reflection))))
