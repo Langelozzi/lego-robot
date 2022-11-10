@@ -22,9 +22,15 @@ front_pair.set_default_speed(-30)
 average_reflection = 60
 
 # while True:
-#     front_pair.start(20, -20)
-#     back_pair.start(20, -20)
+#    front_pair.start(20, -20)
+#    back_pair.start(20, -20)
 
 while True:
-    front_pair.start(int((color_sensor.get_reflected_light() - average_reflection) * 7), -100 + abs(int((color_sensor.get_reflected_light() - average_reflection))))
-    back_pair.start(int((color_sensor.get_reflected_light() - average_reflection) * 7), -100 + abs(int((color_sensor.get_reflected_light() - average_reflection))))
+    # Set the amount of rotation based on how far the light intensity is from avarege
+    # Note: negative is left, positive is right
+    rotation = int((color_sensor.get_reflected_light() - average_reflection) * 7)
+    # speed will be 100% when going straight and slow down when turning (if there is not average light intensity)
+    speed = -100 + abs(int((color_sensor.get_reflected_light() - average_reflection)))
+
+    front_pair.start(rotation, speed)
+    back_pair.start(rotation, speed)
