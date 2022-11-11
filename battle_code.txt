@@ -1,0 +1,42 @@
+from mindstorms import MSHub, Motor, MotorPair, ColorSensor, DistanceSensor, App
+from mindstorms.control import wait_for_seconds, wait_until, Timer
+from mindstorms.operator import greater_than, greater_than_or_equal_to, less_than, less_than_or_equal_to, equal_to, not_equal_to
+import math
+
+
+# Create your objects here.
+hub = MSHub()
+back_pair = MotorPair('A', 'B')
+front_pair = MotorPair('E', 'F')
+# color_sensor = ColorSensor('C')
+distance_sensor = DistanceSensor('D')
+
+# Create your objects here.
+hub = MSHub()
+
+# Move robot
+def drive_robot(rotation: int, speed: int, distance: int = None, units: str = None):
+    if distance and units:
+        front_pair.move(units, units, rotation, speed)
+        back_pair.move(units, units, rotation, speed)
+    
+    front_pair.start(rotation, speed)
+    back_pair.start(rotation, speed)
+
+def tank_robot(left_speed: int, right_speed: int):
+    front_pair.start_tank(left_speed, right_speed)
+    back_pair.start_tank(left_speed, right_speed)
+
+# Write your program here.
+hub.speaker.beep()
+
+circle_diameter = 200
+
+drive_robot(0, -100, 10, 'cm')
+while True:
+    distance = distance_sensor.get_distance_cm()
+
+    if distance is not None:
+        drive_robot(0, -100)
+    else:
+        tank_robot(75, -75)
