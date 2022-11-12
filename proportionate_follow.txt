@@ -17,20 +17,16 @@ hub.speaker.beep()
 #Proprotional Line following
 # set movement speed to be slower when steering
 front_pair.set_default_speed(-30)
-
+ 
 # at average_reflection, robot steer value should be 0
-average_reflection = 60
-
-# while True:
-#    front_pair.start(20, -20)
-#    back_pair.start(20, -20)
+average_reflection = 70
 
 while True:
     # Set the amount of rotation based on how far the light intensity is from avarege
     # Note: negative is left, positive is right
-    rotation = int((color_sensor.get_reflected_light() - average_reflection) * 7)
+    rotation = int((color_sensor.get_reflected_light() - average_reflection) * 4)
     # speed will be 100% when going straight and slow down when turning (if there is not average light intensity)
-    speed = -100 + abs(int((color_sensor.get_reflected_light() - average_reflection)))
+    speed = -70 + int(abs((color_sensor.get_reflected_light() - average_reflection))*0.8)
 
     front_pair.start(rotation, speed)
     back_pair.start(rotation, speed)
