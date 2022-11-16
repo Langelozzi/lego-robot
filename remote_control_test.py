@@ -1,4 +1,5 @@
 # pip install pynput in terminal
+# https://pynput.readthedocs.io/en/latest/keyboard.html
 
 from pynput import mouse, keyboard
 from pynput.keyboard import Controller, Key
