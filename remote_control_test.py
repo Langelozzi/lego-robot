@@ -21,21 +21,27 @@ m_front_left = Motor('F')
 back_pair = MotorPair('A', 'B')
 front_pair = MotorPair('E', 'F')
 
-
 keyboard = Controller()
 
+def right_turn():
+    front_pair.start(100)
+
+def left_turn():
+    front_pair.start(-100)
+
 # Press and release space
-keyboard.press(Key.space)
-keyboard.release(Key.space)
+with keyboard.press(Key.space):
+    front_pair.start(5, 50)
+with keyboard.release(Key.space):
+    front_pair.stop()
 
-# Type a lower case A; this will work even if no key on the
-# physical keyboard is labelled 'A'
-keyboard.press('a')
-keyboard.release('a')
-# Type two upper case As
-keyboard.press('A')
-keyboard.release('A')
-with keyboard.pressed(Key.shift):
-    keyboard.press('a')
-    keyboard.release('a')
+# Press and release shift
+with keyboard.press(Key.ctrl):
+    right_turn()
+with keyboard.release(Key.ctrl):
+    front_pair.stop()
 
+with keyboard.press(Key.shift):
+    left_turn()
+with keyboard.release(Key.shift):
+    front_pair.stop()
